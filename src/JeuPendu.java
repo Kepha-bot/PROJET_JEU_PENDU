@@ -12,6 +12,8 @@ public class JeuPendu{
 	private char[] motSecret;
 	private char[] motJoueur;
 	private char inputLetter;
+
+	private ArrayList<Character> lettresUtilisées;
 	
 	private boolean[] alphabet;
 
@@ -23,8 +25,7 @@ public class JeuPendu{
 
 	Scanner inputZone = new Scanner(System.in); 
     String inputString;
-    
-	
+    	
 	public JeuPendu() throws IOException {
 		this.dictionnaire=creationDictionnaire();
 		this.nbreMot=dictionnaire.size();
@@ -67,6 +68,7 @@ public class JeuPendu{
 		this.nbreSucces=0;
 		this.nbreEssais=0;
 		this.nbreErreurs=0;
+		this.lettresUtilisées=new ArrayList<Character>();
 		this.alphabet = new boolean[26];
 		for(int i = 0; i<26; i++) {
 			this.alphabet[i]=false;
@@ -97,6 +99,26 @@ public class JeuPendu{
 			System.out.print(tableau[i]);
 		}
 		System.out.println("");
+	}
+	
+	public boolean verifDejaUtilise(int lettre) {
+		if(this.alphabet[lettre]==true)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean testLettre(char lettre) {
+		boolean reponse=false;
+		
+		for(int i=0; i<this.motSecret.length; i++) {
+			if(lettre==motSecret[i]) {
+				reponse=true;
+				this.motJoueur[i]=lettre;
+			}
+		}
+		
+		return reponse;
 	}
 	
 	public int characterToInt(char character) {	
@@ -284,17 +306,37 @@ public class JeuPendu{
 	public static void main(String[] args) throws IOException {
 		JeuPendu partie = new JeuPendu();
 		partie.choixMotSecret(partie.dictionnaire, partie.nbreMot);
-		partie.resetPartie();
-		partie.afficherTableau(partie.motSecret);
-		partie.afficherTableau(partie.motJoueur);
-		System.out.println(partie.nbreSuccesBut);
+		partie.resetPartie();	
 		
-		Scanner inputZone = new Scanner(System.in); 
-	    System.out.println("Enter letter :");
-	    partie.inputString = partie.inputZone.nextLine();
-	    partie.inputString = partie.inputString.toUpperCase();
-	    partie.inputLetter = partie.inputString.charAt(0);
-	    System.out.println("Letter is: " + partie.intToCharacter(partie.characterToInt(partie.inputLetter)));
-	    inputZone.close();
+		while(partie.nbreSucces!=partie.nbreSuccesBut) {
+			System.out.print("Mot à trouver : ("+partie.motJoueur.length+") ");
+			partie.afficherTableau(partie.motJoueur);
+			System.out.println("");
+			System.out.println("Nombre de bonnes lettres : "+partie.nbreSucces+", nombre d'erreurs : "+partie.nbreErreurs+", nombre d'essais : "+partie.nbreEssais);
+			System.out.println("Lettres déjà utilisées : "+partie.lettresUtilisées.toString());
+			System.out.println("Entrez une lettre :");
+	    	partie.inputString = partie.inputZone.nextLine();
+	    	partie.inputString = partie.inputString.toUpperCase();
+	    	partie.inputLetter = partie.inputString.charAt(0);
+	    	
+	    	int tmpLetterInt = partie.characterToInt(partie.inputLetter);
+	    	
+	    	if(partie.verifDejaUtilise(tmpLetterInt)==true)
+	    		System.out.println("Lettre "+partie.inputLetter+" déjà utilisée, essayez une autre lettre.");
+	    	else {
+	    		partie.lettresUtilisées.add(partie.inputLetter);
+	    		partie.alphabet[tmpLetterInt]=true;
+	    		
+	    		if(partie.testLettre(partie.inputLetter)==true)
+	    			partie.nbreSucces++;
+	    		else
+	    			partie.nbreErreurs++;
+	    		
+		    	partie.nbreEssais++;
+	    	}
+	    }
+		System.out.print("Bravo tu as trouvé le mot ");
+		partie.afficherTableau(partie.motJoueur);
+		partie.inputZone.close();
 	}
 }
