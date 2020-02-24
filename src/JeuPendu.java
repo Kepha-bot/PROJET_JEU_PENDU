@@ -8,13 +8,22 @@ import java.util.Scanner;
 public class JeuPendu{
 	
 	private ArrayList<String> dictionnaire;
+	
+	private char[] motSecret;
+	private char[] motJoueur;
+	private char inputLetter;
+	
+	private boolean[] alphabet;
+
 	private int nbreMot;
-	private String motSecret;
+	private int nbreSucces;
+	private int nbreSuccesBut;
 	private int nbreEssais;
 	private int nbreErreurs;
 
 	Scanner inputZone = new Scanner(System.in); 
-    String inputLetter;
+    String inputString;
+    
 	
 	public JeuPendu() throws IOException {
 		this.dictionnaire=creationDictionnaire();
@@ -36,12 +45,58 @@ public class JeuPendu{
         return dictionnaire;
 	}
 	
-	public String choixMotSecret(ArrayList<String> dictionnaire, int nbreMot) {
+	public void choixMotSecret(ArrayList<String> dictionnaire, int nbreMot) {
 		String motSecret;
 		Random alea = new Random();
 		int numeroMot = alea.nextInt(this.nbreMot);
 		motSecret=this.dictionnaire.get(numeroMot);
-		return motSecret;		
+		
+		char[] lettres = new char[motSecret.length()]; 
+		char[] lettresObfusquees = new char[motSecret.length()];
+		
+		for (int i=0; i<motSecret.length(); i++){
+			lettres[i] = motSecret.charAt(i) ;
+			lettresObfusquees[i] = '_';
+		}	
+		
+		this.motSecret = lettres;
+		this.motJoueur = lettresObfusquees;
+	}
+	
+	public void resetPartie() {
+		this.nbreSucces=0;
+		this.nbreEssais=0;
+		this.nbreErreurs=0;
+		this.alphabet = new boolean[26];
+		for(int i = 0; i<26; i++) {
+			this.alphabet[i]=false;
+		}
+		this.nbreSuccesBut=this.setSucces();
+	}
+	
+	public int setSucces() {
+		int but = 0;
+		ArrayList<Character> lettresUniques=new ArrayList<Character>();
+		boolean ok;
+		
+		for(int i=0; i<this.motSecret.length; i++) {
+			ok = true;
+			for(int j=0; j<lettresUniques.size(); j++) {
+				if (this.motSecret[i] == lettresUniques.get(j))
+					 ok=false;				
+			}
+			lettresUniques.add(this.motSecret[i]);
+			if(ok==true)
+				but++;
+		}		
+		return but;
+	}
+	
+	public void afficherTableau(char[] tableau) {
+		for(int i = 0; i < tableau.length; i++) {
+			System.out.print(tableau[i]);
+		}
+		System.out.println("");
 	}
 	
 	public int characterToInt(char character) {	
@@ -135,12 +190,111 @@ public class JeuPendu{
 		return characterToInt;
 	}
 	
+	public char intToCharacter (int number) {	
+		char intToCharacter = '_';
+		
+		switch (number)
+        {
+            case 0:
+                intToCharacter = 'A';
+                break;
+            case 1:
+                intToCharacter = 'B';
+                break;
+            case 2:
+                intToCharacter = 'C';
+                break;
+            case 3:
+                intToCharacter = 'D';
+                break;
+            case 4:
+                intToCharacter = 'E';
+                break;
+            case 5:
+                intToCharacter = 'F';
+                break;
+            case 6:
+                intToCharacter = 'G';
+                break;
+            case 7:
+                intToCharacter = 'H';
+                break;
+            case 8:
+                intToCharacter = 'I';
+                break;
+            case 9:
+                intToCharacter = 'J';
+                break;
+            case 10:
+                intToCharacter = 'K';
+                break;
+            case 11:
+                intToCharacter = 'L';
+                break;
+            case 12:
+                intToCharacter = 'M';
+                break;
+            case 13:
+                intToCharacter = 'N';
+                break;
+            case 14:
+                intToCharacter = 'O';
+                break;
+            case 15:
+                intToCharacter = 'P';
+                break;
+            case 16:
+                intToCharacter = 'Q';
+                break;
+            case 17:
+                intToCharacter = 'R';
+                break;
+            case 18:
+                intToCharacter = 'S';
+                break;
+            case 19:
+                intToCharacter = 'T';
+                break;
+            case 20:
+                intToCharacter = 'U';
+                break;
+            case 21:
+                intToCharacter = 'V';
+                break;
+            case 22:
+                intToCharacter = 'W';
+                break;
+            case 23:
+                intToCharacter = 'X';
+                break;
+            case 24:
+                intToCharacter = 'Y';
+                break;
+            case 25:
+                intToCharacter = 'Z';
+                break;
+            default:
+                System.out.println("Call Contains a bad character. Try again. \n");
+                return intToCharacter;
+        }
+		
+		return intToCharacter;
+	}
+	
 	public static void main(String[] args) throws IOException {
 		JeuPendu partie = new JeuPendu();
-		partie.motSecret = partie.choixMotSecret(partie.dictionnaire, partie.nbreMot);
+		partie.choixMotSecret(partie.dictionnaire, partie.nbreMot);
+		partie.resetPartie();
+		partie.afficherTableau(partie.motSecret);
+		partie.afficherTableau(partie.motJoueur);
+		System.out.println(partie.nbreSuccesBut);
+		
 		Scanner inputZone = new Scanner(System.in); 
 	    System.out.println("Enter letter :");
-	    partie.inputLetter = partie.inputZone.nextLine();
-	    System.out.println("Letter is: " + partie.characterToInt(partie.inputLetter.charAt(0)));
+	    partie.inputString = partie.inputZone.nextLine();
+	    partie.inputString = partie.inputString.toUpperCase();
+	    partie.inputLetter = partie.inputString.charAt(0);
+	    System.out.println("Letter is: " + partie.intToCharacter(partie.characterToInt(partie.inputLetter)));
+	    inputZone.close();
 	}
 }
