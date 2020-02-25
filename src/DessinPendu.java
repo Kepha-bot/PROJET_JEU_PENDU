@@ -46,7 +46,7 @@ public class DessinPendu extends JFrame implements ActionListener, WindowListene
 		
 			//Image du pendu 
 	
-		ImageIcon image = new ImageIcon(new ImageIcon("image11.jpg").getImage().getScaledInstance(500, 500, Image.SCALE_DEFAULT));
+		ImageIcon image = new ImageIcon(new ImageIcon("images/etat11.jpg").getImage().getScaledInstance(500, 500, Image.SCALE_DEFAULT));
 		JLabel imagebis = new JLabel(); 
 		imagebis.setIcon(image);
 	
@@ -104,7 +104,7 @@ public class DessinPendu extends JFrame implements ActionListener, WindowListene
 		{
 	
 		    
-		    if(i==1) {
+		    if(i==0) {
 		    	
 		    	dessinP.setText( 
 		    	 "      \n"+ 
@@ -117,7 +117,7 @@ public class DessinPendu extends JFrame implements ActionListener, WindowListene
 		    	
 		    }
 			
-			if(i==2)
+			if(i==1)
 			{
 				dessinP.setText( 
 				    	 "      \n"+ 
@@ -129,7 +129,7 @@ public class DessinPendu extends JFrame implements ActionListener, WindowListene
 				
 			}
 			
-			if(i==3)
+			if(i==2)
 			{
 				dessinP.setText( 
 				    	 "      \n"+ 
@@ -141,7 +141,7 @@ public class DessinPendu extends JFrame implements ActionListener, WindowListene
 		
 				
 			}
-			if(i==4)
+			if(i==3)
 			{
 				
 				dessinP.setText( 
@@ -154,7 +154,7 @@ public class DessinPendu extends JFrame implements ActionListener, WindowListene
 			
 				
 			}
-			if(i==5)
+			if(i==4)
 			{
 				dessinP.setText( 
 				    	 "      \n"+ 
@@ -167,7 +167,7 @@ public class DessinPendu extends JFrame implements ActionListener, WindowListene
 				
 				
 			}
-			if(i==6)
+			if(i==5)
 			{
 				
 				dessinP.setText( 
@@ -181,7 +181,7 @@ public class DessinPendu extends JFrame implements ActionListener, WindowListene
 				
 			}
 			
-			if(i==7)
+			if(i==6)
 			{
 				dessinP.setText( 
 				    	 "- - -  \n"+ 
@@ -193,7 +193,7 @@ public class DessinPendu extends JFrame implements ActionListener, WindowListene
 				
 			}
 			
-			if(i==8)
+			if(i==7)
 			{
 				dessinP.setText( 
 				    	 "- - -  \n"+ 
@@ -205,7 +205,7 @@ public class DessinPendu extends JFrame implements ActionListener, WindowListene
 				
 				
 			}
-			if(i==9)
+			if(i==8)
 			{
 				
 				dessinP.setText( 
@@ -219,7 +219,7 @@ public class DessinPendu extends JFrame implements ActionListener, WindowListene
 				
 			}
 			
-			if(i==10)
+			if(i==9)
 			{
 				
 				dessinP.setText( 

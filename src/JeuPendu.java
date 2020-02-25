@@ -22,6 +22,8 @@ public class JeuPendu{
 	private int nbreSuccesBut;
 	private int nbreEssais;
 	private int nbreErreurs;
+	
+	private static String OS = System.getProperty("os.name").toLowerCase();
 
 	Scanner inputZone = new Scanner(System.in); 
     String inputString;
@@ -211,15 +213,39 @@ public class JeuPendu{
 		return characterToInt;
 	}
 	
-	public static void main(String[] args) throws IOException {
+	public void CLS() throws InterruptedException, IOException {
+		switch(this.OS) {
+			case "win" :
+				new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+			case "nux" :
+				System.out.print("\033[H\033[2J");  
+			    System.out.flush();  
+		}
+	}
+
+	public void OSValidator() {			
+		System.out.println(OS);
+			
+		if (OS.indexOf("win") >= 0) {
+			this.OS="win";
+		}
+		if (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0) {
+			this.OS="nux";
+		}
+	}
+	
+	public static void main(String[] args) throws IOException, InterruptedException {
 		boolean jouer = true;
 		JeuPendu partie = new JeuPendu();
+		partie.OSValidator();
 		
 		while(jouer==true) {
 			partie.choixMotSecret(partie.dictionnaire, partie.nbreMot);
 			partie.resetPartie();	
 			
-			while(1!=0) {
+			while(1!=0) {		    	
+				partie.CLS();
+		        
 				System.out.print("Mot à trouver : ("+partie.motJoueur.length+") ");
 				partie.afficherTableau(partie.motJoueur);
 				System.out.println("");
@@ -253,7 +279,7 @@ public class JeuPendu{
 		    		System.out.println("Merci de renseigner un caractère.");
 		    	}
 		    	
-		    	if(partie.nbreErreurs==5) {
+		    	if(partie.nbreErreurs==9) {
 		    		System.out.println("Trop d'erreurs, tu as perdu !");
 		    		System.out.print("Le mot a trouvé était ");
 					partie.afficherTableau(partie.motSecret);
@@ -264,7 +290,7 @@ public class JeuPendu{
 		    		System.out.print("Bravo tu as trouvé le mot ");
 					partie.afficherTableau(partie.motJoueur);
 					break;
-		    	}    		
+		    	}
 		    }
 			System.out.println("Si vous voulez quittez, tappez \"N\" (sinon le jeu se relancera) : ");
 	    	partie.inputString = partie.inputZone.nextLine();
