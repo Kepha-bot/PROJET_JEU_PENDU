@@ -26,6 +26,7 @@ public class ReglePendu {
 		this.setNbreMot(getDictionnaire().size());
 	}
 
+	//Initialisation du dictionnaire, on vient lire un fichier dictionnaire fourni pour peupler une ArrayList avec les mots
 	public ArrayList<String> creationDictionnaire() throws IOException {
 		BufferedReader fichier_dictionnaire = new BufferedReader(new FileReader("file/dictionnaire.txt"));
         @SuppressWarnings("unused")
@@ -42,12 +43,16 @@ public class ReglePendu {
         return dictionnaire;
 	}
 	
+	//On choisit un mot aléatoire dans le dictionnaire en générant un nombre aléatoire lié aux nombres de mots dans le dictionnaire
 	public void choixMotSecret(ArrayList<String> dictionnaire, int nbreMot) {
 		String motSecret;
 		Random alea = new Random();
 		int numeroMot = alea.nextInt(this.getNbreMot());
 		motSecret=this.getDictionnaire().get(numeroMot);
 		
+		//On transforme la String retournée en tableau de caractères
+		//Le premier tableau sera le mot secret en clair
+		//Le deucième mot sera le mot obfusqué pour le joueur
 		char[] lettres = new char[motSecret.length()]; 
 		char[] lettresObfusquees = new char[motSecret.length()];
 		
@@ -69,6 +74,7 @@ public class ReglePendu {
 		for(int i = 0; i<26; i++) {
 			this.getAlphabet()[i]=false;
 		}
+		//Définition du nombre de points à atteindre pour gagner, il correspond aux nombres de lettres indépendantes dans le mot secret
 		this.setNbreSuccesBut(this.setSucces());
 	}
 	
@@ -78,18 +84,26 @@ public class ReglePendu {
 		boolean ok;
 		
 		for(int i=0; i<this.getMotSecret().length; i++) {
+			//Par défaut on présume que la lettre est unique
 			ok = true;
+			//On parcourt l'ArrayList de lettres qu'on va peupler au fur et à mesure
 			for(int j=0; j<lettresUniques.size(); j++) {
+				//Si la lettre est déjà présente dans le tableau, ça veut dire qu'elle est déjà passée dans la vérification
+				//Elle est donc déjà présente dans le mot, on passe l'unicité à false
 				if (this.getMotSecret()[i] == lettresUniques.get(j))
 					 ok=false;				
 			}
+			//On ajoute la lettre testée à l'ArrayList
 			lettresUniques.add(this.getMotSecret()[i]);
+			
+			//Si la lettre n'a pas été trouvé dans l'ArrayList, on incrémente le but
 			if(ok==true)
 				but++;
 		}		
 		return but;
 	}
 	
+	//On utilise des tableaux de caractères pour le mot secret et le mot du joueur, on a donc besoin d'une fonction pour afficher ces tableaux
 	public void afficherTableau(char[] tableau) {
 		for(int i = 0; i < tableau.length; i++) {
 			System.out.print(tableau[i]);
@@ -97,6 +111,7 @@ public class ReglePendu {
 		System.out.println("");
 	}
 	
+	//On utilise le tableau de boolean pour savoir si la lettre a déjà été utilisée
 	public boolean verifDejaUtilise(int lettre) {
 		if(this.getAlphabet()[lettre]==true)
 			return true;
@@ -104,10 +119,14 @@ public class ReglePendu {
 			return false;
 	}
 	
+	//On test la lettre pour savoir si elle est dans le mot
 	public boolean testLettre(char lettre) {
+		//Par défaut la lettre n'est pas dans le mot
 		boolean reponse=false;
 		
+		//On partcour le mot secret avec la lettre choisie
 		for(int i=0; i<this.getMotSecret().length; i++) {
+			//Si on trouve la lettre, la réponse passe à true et on remplace le '_' par la lettre dans le mot du joueur au même emplacement
 			if(lettre==getMotSecret()[i]) {
 				reponse=true;
 				this.getMotJoueur()[i]=lettre;
@@ -117,7 +136,11 @@ public class ReglePendu {
 		return reponse;
 	}
 	
+	//Méthode qui permet de convertir la lettre en int
+	//Cela nous permet de pouvoir consulter rapidement notre alphabet
+	//Exemple : alphabet[0] = le boolean lié à la lettre 'A'
 	public int characterToInt(char character) {	
+		//Définition par défaut de la réponse sur une valeur impossible
 		int characterToInt = -1;
 		
 		switch (character)
@@ -201,6 +224,7 @@ public class ReglePendu {
                 characterToInt = 25;
                 break;
             default:
+            	//Si aucun case ne correspond alors la lettre n'est pas un caractère [A-Z], retour -1
                 return characterToInt;
         }
 		

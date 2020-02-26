@@ -1,4 +1,5 @@
 public class DessinPendu {	
+	//Affichage du dessin selon le nombre d'erreurs commises par le joueur
 	public static void afficherPendu(int erreurs) {
 		switch (erreurs) {
 		case 0:
