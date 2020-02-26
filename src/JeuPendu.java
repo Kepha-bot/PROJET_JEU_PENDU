@@ -11,7 +11,7 @@ public class JeuPendu{
 				new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
 			case "nux" :
 				System.out.print("\033[H\033[2J");  
-			    System.out.flush();  
+			    System.out.flush();
 		}
 	}
 
@@ -39,12 +39,26 @@ public class JeuPendu{
 			
 			while(1!=0) {		    	
 				JeuPendu.CLS();
-		        
+		        DessinPendu.afficherPendu(partie.getNbreErreurs());
 				System.out.print("Mot à trouver : ("+partie.getMotJoueur().length+") ");
 				partie.afficherTableau(partie.getMotJoueur());
 				System.out.println("");
 				System.out.println("Nombre de bonnes lettres : "+partie.getNbreSucces()+", nombre d'erreurs : "+partie.getNbreErreurs()+", nombre d'essais : "+partie.getNbreEssais());
 				System.out.println("Lettres déjà utilisées : "+partie.getLettresUtilisées().toString());
+		    	
+		    	if(partie.getNbreErreurs()==6) {
+		    		System.out.println("Trop d'erreurs, vous avez perdu !");
+		    		System.out.print("Le mot à trouver était ");
+					partie.afficherTableau(partie.getMotSecret());
+					break;
+		    	}
+		    	
+		    	if(partie.getNbreSucces()==partie.getNbreSuccesBut()) {
+		    		System.out.print("Bravo vous avez trouvé le mot : ");
+					partie.afficherTableau(partie.getMotJoueur());
+					break;
+		    	}
+				
 				System.out.println("Entrez une lettre :");
 				JeuPendu.inputString = JeuPendu.inputZone.nextLine();
 				JeuPendu.inputString = JeuPendu.inputString.toUpperCase();
@@ -71,19 +85,6 @@ public class JeuPendu{
 			    	}
 		    	} else {
 		    		System.out.println("Merci de renseigner un caractère.");
-		    	}
-		    	
-		    	if(partie.getNbreErreurs()==9) {
-		    		System.out.println("Trop d'erreurs, vous avez perdu !");
-		    		System.out.print("Le mot à trouver était ");
-					partie.afficherTableau(partie.getMotSecret());
-					break;
-		    	}
-		    	
-		    	if(partie.getNbreSucces()==partie.getNbreSuccesBut()) {
-		    		System.out.print("Bravo vous avez trouvé le mot : ");
-					partie.afficherTableau(partie.getMotJoueur());
-					break;
 		    	}
 		    }
 			System.out.println("Si vous voulez quittez, entrez \"N\" dans la console (sinon le jeu se relancera) : ");
