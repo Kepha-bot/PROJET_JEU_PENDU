@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class JeuPendu{
 	
@@ -98,6 +99,7 @@ public class JeuPendu{
 	    	}
 		}
 		System.out.println("Merci d'avoir joué !");
+		TimeUnit.SECONDS.sleep(5);
 		JeuPendu.inputZone.close();
 	}
 }
