@@ -48,7 +48,7 @@ public class JeuPendu{
 			//On choisit un mot dans le dictionnaire
 			partie.choixMotSecret(partie.getDictionnaire(), partie.getNbreMot());
 			//On reset les valeurs de la partie
-			partie.resetPartie();	
+			partie.resetPartie();
 			
 			//Boucle infinie pour renseigner les caractères
 			//La partie se terminera quand un break sera atteint (trop d'erreurs ou but atteint)
@@ -79,44 +79,30 @@ public class JeuPendu{
 					partie.afficherTableau(partie.getMotJoueur());
 					break;
 		    	}
-				
-		    	//Prompt pour renseigner une lettre
-				System.out.println("Entrez une lettre :");
-				JeuPendu.inputString = JeuPendu.inputZone.nextLine();
-				JeuPendu.inputString = JeuPendu.inputString.toUpperCase();
 		    	
-				//On vérifie que le joueur a bien rensigner quelque chose
-		    	if(JeuPendu.inputString.length()>0) {
-		    		
-		    		//On récupère le premier caractère que l'on va transformer en int
-		    		JeuPendu.inputLetter = JeuPendu.inputString.charAt(0);
-			    	int tmpLetterInt = partie.characterToInt(JeuPendu.inputLetter);
-			    	
-			    	//Vérification que l'entrée est bien dans la range [A-Z]
-			    	if(tmpLetterInt!=-1) {			    		
-			    		//On regarde dans l'alphabet si la lettre a déjà été utilisée
-				    	if(partie.verifDejaUtilise(tmpLetterInt)==true)
-				    		System.out.println("Lettre "+JeuPendu.inputLetter+" déjà utilisée, essayez une autre lettre.");
-				    	else {
-				    		//On ajoute la lettre à l'ArrayList des lettres utilisées et on set l'alphabet
-				    		partie.getLettresUtilisées().add(JeuPendu.inputLetter);
-				    		partie.getAlphabet()[tmpLetterInt]=true;
-				    		
-				    		//Implémentation du nombre de succès ou d'erreurs si la lettre choisie est bien dans le mot
-				    		if(partie.testLettre(JeuPendu.inputLetter)==true)
-				    			partie.setNbreSucces(partie.getNbreSucces() + 1);
-				    		else
-				    			partie.setNbreErreurs(partie.getNbreErreurs() + 1);
-				    		
-					    	partie.setNbreEssais(partie.getNbreEssais() + 1);
-				    	}
-			    	} else {
-			    		System.out.println("Merci de renseigner un caractère valide.");
-			    	}
-		    	} else {
-		    		System.out.println("Merci de renseigner un caractère.");
-		    	}
-		    }
+		    	//On boucle la demande de saisie de caractère jusqu'à ce que l'utilisateur renseigne un caractère correcte
+		    	do {
+			    	//Prompt pour renseigner une lettre
+					System.out.println("Entrez une lettre :");
+					JeuPendu.inputString = JeuPendu.inputZone.nextLine();
+					JeuPendu.inputString = JeuPendu.inputString.toUpperCase();					
+		    	} while (partie.verifierInput(JeuPendu.inputString, partie)==false);
+		    	
+		    	JeuPendu.inputLetter = JeuPendu.inputString.charAt(0);
+		    	int tmpLetterInt = partie.characterToInt(JeuPendu.inputLetter);		
+			    
+		    	//On ajoute la lettre à l'ArrayList des lettres utilisées et on set l'alphabet
+			   	partie.getLettresUtilisées().add(JeuPendu.inputLetter);
+			   	partie.getAlphabet()[tmpLetterInt]=true;
+			   		
+			   	//Implémentation du nombre de succès ou d'erreurs si la lettre choisie est bien dans le mot
+			   	if(partie.testLettre(JeuPendu.inputLetter)==true)
+			   		partie.setNbreSucces(partie.getNbreSucces() + 1);
+			   	else
+			   		partie.setNbreErreurs(partie.getNbreErreurs() + 1);
+			   	
+			   	partie.setNbreEssais(partie.getNbreEssais() + 1);
+			}
 			
 			//Une fois que la partie est terminée le joueur peut quitter le jeu
 			System.out.println("Si vous voulez quittez, entrez \"N\" dans la console (sinon le jeu se relancera) : ");
@@ -132,8 +118,8 @@ public class JeuPendu{
 	    	}
 		}
 		System.out.println("Merci d'avoir joué !");
-		//Le jeu attend 5s pour que le joueur puisse lire le message de fin
-		TimeUnit.SECONDS.sleep(5);
+		//Le jeu attend 3s pour que le joueur puisse lire le message de fin
+		TimeUnit.SECONDS.sleep(3);
 		JeuPendu.inputZone.close();
 	}
 }

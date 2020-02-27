@@ -119,6 +119,32 @@ public class ReglePendu {
 			return false;
 	}
 	
+	//On vérifie que l'input de l'utilisateur est bien un caractère valide non déjà utilisé
+	public boolean verifierInput(String input, ReglePendu partie) {
+		boolean validation = false;
+		char lettre;
+		//On vérifie que l'input n'est pas vide
+		if(input.length()>0) { 			
+    		//On récupère le premier caractère que l'on va transformer en int
+    		lettre = input.charAt(0);
+	    	int tmpLetterInt = partie.characterToInt(lettre);	    	
+	    	//Vérification que l'entrée est bien dans la range [A-Z]
+	    	if(tmpLetterInt!=-1) {
+	    		//On regarde dans l'alphabet si la lettre a déjà été utilisée
+	    		if(partie.verifDejaUtilise(tmpLetterInt)==false)
+	    			validation=true;
+			    else {
+			    	System.out.println("Lettre "+lettre+" déjà utilisée, essayez une autre lettre.");
+			    }	    		
+	    	} else {
+	    		System.out.println("Merci de renseigner un caractère valide.");
+	    	}
+    	} else {
+    		System.out.println("Merci de renseigner un caractère.");
+    	}		
+		return validation;
+	}
+	
 	//On test la lettre pour savoir si elle est dans le mot
 	public boolean testLettre(char lettre) {
 		//Par défaut la lettre n'est pas dans le mot
