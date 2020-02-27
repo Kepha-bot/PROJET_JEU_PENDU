@@ -131,17 +131,39 @@ public class ReglePendu {
 	    	//Vérification que l'entrée est bien dans la range [A-Z]
 	    	if(tmpLetterInt!=-1) {
 	    		//On regarde dans l'alphabet si la lettre a déjà été utilisée
-	    		if(partie.verifDejaUtilise(tmpLetterInt)==false)
+	    		if(partie.verifDejaUtilise(tmpLetterInt)==false) {
 	    			validation=true;
-			    else {
-			    	System.out.println("Lettre "+lettre+" déjà utilisée, essayez une autre lettre.");
-			    }	    		
+	    		}
+	    		else {
+	    			System.out.println("Lettre "+lettre+" déjà utilisée, essayez une autre lettre.");
+	    		}	    		
 	    	} else {
-	    		System.out.println("Merci de renseigner un caractère valide.");
+	    		System.out.println("Merci de renseigner une lettre.");
 	    	}
-    	} else {
-    		System.out.println("Merci de renseigner un caractère.");
-    	}		
+		} else {
+			System.out.println("Merci de renseigner un caractère.");
+		}
+		
+		return validation;
+	}
+	
+	//Pour vérifier si l'input de fin de jeu est bien le caractère est 'Y' ou 'N'
+	public boolean verifierInputFin(String input, ReglePendu partie) {
+		boolean validation=false;	
+		char lettre;
+		if(input.length()>0) {		
+			//On récupère le premier caractère que l'on va transformer en int
+			lettre = input.charAt(0);
+			int tmpLetterInt = partie.characterToInt(lettre);	    	
+			//Vérification que l'entrée est bien 'Y' ou 'N'
+			if((tmpLetterInt!=-1) && (input.charAt(0)=='Y'||input.charAt(0)=='N')) {
+	    		validation=true;
+	    	} else {
+				System.out.println("Merci de répondre par 'Y' ou 'N'.");
+			}
+	    } else {
+			System.out.println("Merci de renseigner un caractère.");
+		}
 		return validation;
 	}
 	

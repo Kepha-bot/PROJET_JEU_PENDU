@@ -104,17 +104,23 @@ public class JeuPendu{
 			   	partie.setNbreEssais(partie.getNbreEssais() + 1);
 			}
 			
-			//Une fois que la partie est terminée le joueur peut quitter le jeu
-			System.out.println("Si vous voulez quittez, entrez \"N\" dans la console (sinon le jeu se relancera) : ");
-			JeuPendu.inputString = JeuPendu.inputZone.nextLine();
-			JeuPendu.inputString = JeuPendu.inputString.toUpperCase();
-			
-			//Exécution des mêmes vérifications syntaxiques que précédemment
-	    	if(JeuPendu.inputString.length()>0) {
-	    		JeuPendu.inputLetter = JeuPendu.inputString.charAt(0);
-		    	if(JeuPendu.inputLetter=='N') {
-		    		jouer=false;
-		    	}
+			//Une fois que la partie est terminée le joueur peut relancer ou quitter
+			//On boucle la demande de saisie de caractère jusqu'à ce que l'utilisateur renseigne un caractère correcte
+	    	do {
+		    	//Prompt pour renseigner une lettre
+				System.out.println("Voulez-vous rejouer ? (Y/N) : ");
+				JeuPendu.inputString = JeuPendu.inputZone.nextLine();
+				JeuPendu.inputString = JeuPendu.inputString.toUpperCase();				
+	    	} while (partie.verifierInputFin(JeuPendu.inputString, partie)==false);
+	    	
+	    	JeuPendu.inputLetter = JeuPendu.inputString.charAt(0);
+	    	switch(JeuPendu.inputLetter) {
+	    		case 'Y':
+	    			jouer=true;
+	    			break;
+	    		case 'N':
+	    			jouer=false;
+	    			break;
 	    	}
 		}
 		System.out.println("Merci d'avoir joué !");
