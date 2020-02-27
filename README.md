@@ -4,12 +4,12 @@ Création d'un jeu de pendu, version console, en java
 ## Pour lancer le jeu :
   - Sur Windows : Exécuter jeu.bat
   - Sur Linux/Unix : Exécuter jeu.sh
-  - Pour tout autre OS, exécuter jeu.jar en console
+  - Pour tout autre OS, exécuter jeu.jar depuis un terminal
   
 ## Fonctionnement du jeu
 La partie se lance toute seul au démarrage.
 
-Vous devez deviner le mot en renseignant des lettres une par une. Vous pouvez rentrée les lettres en minuscules ou en majuscules. Si vous renseignez plusieurs lettres en même temps, seule la première lettre sera prise en compte.
+Vous devez deviner le mot en renseignant des lettres une par une. Vous pouvez rentrer les lettres en minuscules ou en majuscules. Si vous renseignez plusieurs lettres en même temps, seule la première lettre sera prise en compte.
 
 Si vous faites trop d'erreurs, vous perdez la partie et le mot secret vous sera dévoilé.
 
