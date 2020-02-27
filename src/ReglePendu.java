@@ -156,7 +156,7 @@ public class ReglePendu {
 			lettre = input.charAt(0);
 			int tmpLetterInt = partie.characterToInt(lettre);	    	
 			//Vérification que l'entrée est bien 'Y' ou 'N'
-			if((tmpLetterInt!=-1) && (input.charAt(0)=='Y'||input.charAt(0)=='N')) {
+			if((tmpLetterInt!=-1) && (lettre=='Y'||lettre=='N')) {
 	    		validation=true;
 	    	} else {
 				System.out.println("Merci de répondre par 'Y' ou 'N'.");
